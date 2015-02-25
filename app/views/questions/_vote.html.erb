@@ -1,0 +1,3 @@
+ <%= pluralize(answer.votes, "vote") %>
+  <td><%= button_to '+1', upvote_question_answer_path(@question, answer) %></td>
+  <td><%= button_to '-1', downvote_question_answer_path(@question, answer) %></td></br>
