@@ -2,27 +2,33 @@
   <strong>Title:</strong>
   <%= @question.title %>
 </p>
- 
 <p>
   <strong>Content:</strong>
   <%= @question.content %>
   <%= pluralize(@question.votes, "vote") %>
-  <td><%= button_to '+1', upvote_question_path(@question) %></td>
-  <td><%= button_to '-1', downvote_question_path(@question) %></td></br>
+  <td><%= button_to '+1', upvote_question_path(@question), {:class => 'question_upvote', :id => "#{@question.id}"}%></td>
+  <td><%= button_to '-1', downvote_question_path(@question), {:class => 'question_downvote', :id => "#{@question.id}"}%></td></br>
 </p>
-
-<%@answers = Answer.where(question_id: @question.id)%>
-<%@answers.each do |answer|%>
-  <strong>Answer Title:</strong>
-  <td><%= answer.title%></td></br>	
-  <strong>Answer Content:</strong>
-  <td><%= answer.content%></td></br>
-  <%= pluralize(answer.votes, "vote") %>
-  <td><%= button_to '+1', upvote_question_answer_path(@question, answer) %></td>
-  <td><%= button_to '-1', downvote_question_answer_path(@question, answer) %></td></br>
-<%end%><br>
-
-<%= link_to 'New Answer', new_question_answer_path(@question) %><br>
-
-<%= link_to 'Edit Question', edit_question_path(@question) %> |
-<%= link_to 'Back to Questions', questions_path %>
+<table>
+  <tbody contenteditable="true">
+    <tr>
+      <%@answers.each do |answer|%>
+      <td>Answer Title: <%= answer.title%></td>
+      <td>Answer Content:<%= answer.content%></td>
+      <td><%= pluralize(answer.votes, "vote") %><td>
+      <td><%= button_to '+1', upvote_question_answer_path(@question, answer), {:class => 'answer_upvote', :id => "#{answer.id}"} %></td>
+      <td><%= button_to '-1', downvote_question_answer_path(@question, answer), {:class => 'answer_downvote', :id => "#{answer.id}"} %></td>
+      <td><%= link_to "Edit", edit_question_answer_path(@question, answer)%></td>
+      <td><%= link_to "Delete", [@question, answer], method: 'delete', remote: true, :class => 'delete_ans', :data => {:title => answer.title}%></td>
+      </tr>
+      <%end%><br>
+    </tbody>
+  </table>
+  <div class="answer_form">
+    <%= link_to 'New Answer', new_question_answer_path(@question) %><br>
+  </div>
+  <div class="new_answer_form" style="display: none;">
+    <%= render partial: "/answers/new" %>
+  </div>
+  <%= link_to 'Edit Question', edit_question_path(@question) %> |
+  <%= link_to 'Back to Questions', questions_path %>

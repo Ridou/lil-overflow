@@ -4,15 +4,21 @@
 	</thead>
 	<tbody>
 		<tr>
-			<%@question.each do |question|%>
-				<td>Title: <%=question.title%></td>
-				<td>Content: <%=question.content%></td>
-				<td><%= link_to "Show", question %> </td>
-				<td><%= link_to "Edit", edit_question_path(question)%></td>
-				<td><%= link_to "Delete", question, method: :delete, data: {confirm: "Are you sure?"}%></td>
+			<%@questions.each do |question|%>
+			<td>Title: <%=question.title%></td>
+			<td>Content: <%=question.content%></td>
+			<td><%= pluralize(question.votes, "votes") %></td>
+			<td><%= link_to "Show", question %> </td>
+			<td><%= link_to "Edit", edit_question_path(question)%></td>
+			<td><%= link_to 'Delete', question, method: 'delete', remote: true, :class => 'delete_que', :data => {:title => question.title}  %></td>
 		</tr>
-			<% end %>
+		<% end %>
 	</tbody>
 </table>
 </br>
-<%= link_to "New Question", new_question_path %>
+<div class="question_form">
+	<%= button_to "New Question", new_question_path %>
+</div>
+<div class="new_question_form" style="display: none;">
+	<%= render partial: "new" %>
+</div>

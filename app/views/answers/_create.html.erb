@@ -1,0 +1,5 @@
+<td>Answer Title:<%= answer.title%></td>
+<td>Answer Content:<%= answer.content%></td>
+<td><%= pluralize(answer.votes, "vote") %></td>
+<td class="a_plus"><%= button_to '+1', upvote_question_answer_path(@question, answer) %></td>
+<td class="a_minus"><%= button_to '-1', downvote_question_answer_path(@question, answer) %></td>

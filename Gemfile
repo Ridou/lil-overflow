@@ -36,6 +36,9 @@ gem 'rspec-rails'
 gem 'capybara'
 gem 'shoulda-matchers'
 gem 'factory_girl'
+gem 'httparty'
+gem "octokit", "~> 3.0"
+gem 'dotenv'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

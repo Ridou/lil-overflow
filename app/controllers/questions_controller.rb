@@ -2,10 +2,14 @@ class QuestionsController < ApplicationController
 	before_action :set_question, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 
 	def index
-		@question = Question.all
+		@questions = Question.all
+    @questions = Question.order('votes DESC')
+    @question = Question.new
 	end
 
   def show
+    @answers = Answer.where(question_id: @question.id)
+    @answers = Answer.order('votes DESC')
   end
 
   def upvote
@@ -28,12 +32,12 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = Question.new(title: params[:question][:title], content: params[:question][:content])
 
     if @question.save
-      redirect_to root_path
-    else
-      render 'index'
+      respond_to do |format|
+        format.html {render :partial => "create", :locals => {question: @question}}
+      end
     end
   end
 

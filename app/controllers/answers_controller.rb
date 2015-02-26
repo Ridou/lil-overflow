@@ -32,8 +32,13 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.create(answer_params)
-    redirect_to question_path(@question)
+    @answer = @question.answers.new(title: params[:answer][:title], content: params[:answer][:content])
+    
+    if @answer.save
+      respond_to do |format|
+        format.html {render :partial => "create", :locals => {answer: @answer}}
+      end
+    end
   end
 
   def update
